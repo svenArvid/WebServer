@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+      
+<!-- code for sensors -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    
+    <div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    
+    <hr> <hr>
+	<style type="text/css">${demo.css}</style>
+           
+    <script type="text/javascript">
+    
+  $(document).ready(function () {
+    function initData()
+    {
+      var data = [];
+      var time = Date.now();
+      for (var i = -100; i <= 0; i += 1) {
+          data.push({ x: time + i * 500, y: 0 });
+      }
+      return data;
+    }
+
+    function DisplayChart(argContainer, argSeries, argTitle = 'Live Data')
+    {
+    var TheChart = Highcharts.chart(argContainer, {
+      chart: {
+      type: 'spline',
+      animation: false, //{ duration:100}, //false,
+      events: {
+        load: function () {
+          var series = this.series;
+          var len  = series.length;
+          setInterval(function () {
+            $.get("/GetLatest", function(data, status)
+            {
+              for (var j = 0; j < len; j++) {
+                series[j].addPoint([data["time"], data["signal"][j]], false, series[j].data.length > 100);
+              }
+              TheChart.redraw();
+            });
+          }, 200);
+        }
+      }
+      },
+      title: {text: argTitle},
+      xAxis: {type: 'datetime', tickPixelInterval: 150 },
+      yAxis: {title: {text: 'Value' }, plotLines: [{value: 0, width: 1, color: '#808080'}] },
+      exporting: { enabled: false },
+      series: argSeries
+          
+      });
+
+      return TheChart;
+    }
+    
+    var Ser1 = [
+      { name: 'Random data', data: initData() },
+      { name: 'Signal2', data: initData() },
+      { name: 'Signal3', data: initData() }
+    ];
+    var Chart1 = DisplayChart('container1', Ser1, "Graph Number 1");
+    
+    var Ser2 = [
+      { name: 'SpeedRandom', data: [] },
+      { name: 'PosRand', data: [] }
+    ];
+    var Chart2 = DisplayChart('container2', Ser2, "Title for Graph 2");
+  });
+    </script>
+      
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <div id="container" style="min-width: 310px; height: 500px; margin: 0 auto"></div>
+    
+<hr>
+    <div class="container"> 
+        <footer>  <p>&copy; Joakim Carlsson</p>   </footer>
+    </div> <!-- /container -->
+ 
+{% endblock %}    

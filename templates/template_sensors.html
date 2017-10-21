@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+    
+<!-- code for sensors -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <hr> <hr>
+	<style type="text/css">${demo.css}</style>
+       
+<script type="text/javascript">
+
+ // var temp_data = {{ sensor.temperature|safe }};
+ // var hum_data  = {{ sensor.relative_humidity|safe }};
+ // var name_data = {{ sensor.namn|tojson|safe }};		// Note, need to use "tojson" for strings
+/*
+  $(function () {
+    $('#container').highcharts({
+      chart: { type: 'line', zoomType: 'x' },
+      title: { text: name_data },
+      xAxis: { title: { text: 'Time' }, type: 'datetime', dateTimeLabelFormats: { hour: '%H' } },
+      yAxis: { title: { text: '\xB0 C, %' } },
+
+      series:
+      [
+        { name: 'Temperature', data: temp_data },
+        { name: 'Humidity', data: hum_data }
+      ]
+    });
+  });
+  */
+$(document).ready(function () {
+  function initData()
+  {
+    var data = [];
+    var time = Date.now();
+    for (var i = -30; i <= 0; i += 1) {
+        data.push({ x: time + i * 1000, y: 0 });
+    }
+    return data;
+  }
+
+  Highcharts.chart('container', {
+    chart: {
+    type: 'spline',
+    animation: false, // don't animate in old IE
+    events: {
+      load: function () {
+        // set up the updating of the chart each second
+        var series = this.series;
+        var len  = series.length;
+        setInterval(function () {
+          $.get("/GetLatest", function(data, status){
+            for (var j = 0; j < len; j++) {
+              series[j].addPoint([data["time"], data["signal"][j]], true, true);
+            }
+          });
+        }, 1000);
+      }
+      }
+    },
+    title: {text: 'Live random data'},
+    xAxis: {type: 'datetime', tickPixelInterval: 150 },
+    yAxis: {title: {text: 'Value' }, plotLines: [{value: 0, width: 1, color: '#808080'}] },
+    legend: { enabled: false },
+    exporting: { enabled: false },
+        series:
+        [
+          { name: 'Random data', data: initData() },
+          { name: 'Signal2', data: initData() }
+        ]
+    });
+});
+</script>
+  
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<div id="container" style="min-width: 310px; height: 500px; margin: 0 auto"></div>
+
+<hr>
+    <div class="container"> 
+        <footer>  <p>&copy; Joakim Carlsson</p>   </footer>
+    </div> <!-- /container -->
+ 
+{% endblock %}    
