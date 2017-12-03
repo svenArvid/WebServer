@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
       
-<!-- code for sensors -->
+    <div class="jumbotron">
+      <div class="container">
+        <h2>800M Fixed Pitch</h2>
+        <p>Write some more stuff, e.g. expected results. Write some more stuff, e.g. expected results. </p>
+      </div>
+    </div>
+    
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     
     <div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -15,9 +21,9 @@
   $(document).ready(function () {
     function initData()
     {
-      var data = [];
-      var time = Date.now();
-      for (var i = -100; i <= 0; i += 1) {
+      let data = [];
+      let time = Date.now();
+      for (let i = -100; i <= 0; i += 1) {
           data.push({ x: time + i * 500, y: 0 });
       }
       return data;
@@ -25,23 +31,31 @@
 
     function DisplayChart(argContainer, argSeries, argTitle = 'Live Data')
     {
-    var TheChart = Highcharts.chart(argContainer, {
+    let TheChart = Highcharts.chart(argContainer, {
       chart: {
       type: 'spline',
-      animation: false, //{ duration:100}, //false,
+      animation: false, //{ duration:100},
       events: {
         load: function () {
-          var series = this.series;
-          var len  = series.length;
+          let series = this.series;
+          let len  = series.length;
+          console.log(series[1].name);
+          let url = "/GetSignals/";
+          
+          for(let i=0; i < len; i++) {
+            url += series[i].name;
+            url += ',';
+          }
+          
           setInterval(function () {
-            $.get("/GetLatest", function(data, status)
+            $.get(url, function(data, status)
             {
-              for (var j = 0; j < len; j++) {
+              for (let j = 0; j < len; j++) {
                 series[j].addPoint([data["time"], data["signal"][j]], false, series[j].data.length > 100);
               }
               TheChart.redraw();
             });
-          }, 200);
+          }, 500);
         }
       }
       },
@@ -56,18 +70,20 @@
       return TheChart;
     }
     
-    var Ser1 = [
-      { name: 'Random data', data: initData() },
-      { name: 'Signal2', data: initData() },
-      { name: 'Signal3', data: initData() }
+    let Ser1 = [
+      { name: 'RoomTempSnsr.Temperature', data: initData() },
+      { name: 'RoomTempSnsr.ADCVal', data: initData() }
+      //{ name: 'dbActualClutchMode', data: initData() }
     ];
-    var Chart1 = DisplayChart('container1', Ser1, "Graph Number 1");
+    let Chart1 = DisplayChart('container1', Ser1, "Graph Number 1");
     
-    var Ser2 = [
-      { name: 'SpeedRandom', data: [] },
-      { name: 'PosRand', data: [] }
+    let Ser2 = [
+      { name: 'SensorIG53A_Rpm', data: [] },
+      { name: 'SensorIG53B_Rpm', data: [] },
+      { name: 'SensorIG53A_RpmFild', data: [] },
+      { name: 'SensorIG53B_RpmFild', data: [] }
     ];
-    var Chart2 = DisplayChart('container2', Ser2, "Title for Graph 2");
+    let Chart2 = DisplayChart('container2', Ser2, "Title for Graph 2");
   });
     </script>
       
