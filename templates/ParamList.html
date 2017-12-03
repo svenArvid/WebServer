@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> My Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+</head>
+<body>
+
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">WebSiteName</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Page 1-1</a></li>
+            <li><a href="#">Page 1-2</a></li>
+            <li><a href="#">Page 1-3</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Page 2</a></li>
+        <li><a href="#">Page 3</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+    </div>
+  </nav>
+
+
+  <div class="jumbotron text-center">
+    <h2>My First Bootstrap Page <small>Tutorial on w3schools</small></h2>
+    <p><mark>Resize</mark> this responsive page to see the effect!</p> 
+  </div>
+    
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h3 class="text-warning">Column 1</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+      </div>
+      <div class="col-sm-4">
+        <h3 class="text-success">Column 2</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+      </div>
+      <div class="col-sm-4">
+        <h3>Column 3</h3>        
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Striped Rows</h2>
+    <p>The .table-striped class adds zebra-stripes to a table:</p>   
+    <input class="form-control" id="ParameterSearch" type="text" placeholder="Search..">
+    <br>    
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="ParameterTable">
+        <tr data-toggle="tooltip" title="Tool tip description">
+          <td>Parameter name 1 has a long name</td>
+          <td><span class="badge">ECR</span></td>
+          <td>
+            <form>
+              <label class="checkbox-inline"><input type="checkbox" value="">ECR</label>
+              <label class="checkbox-inline"><input type="checkbox" value="">BM1</label>
+              <label class="checkbox-inline"><input type="checkbox" value="">BM2</label>
+              <label class="checkbox-inline"><input type="checkbox" value="">BM3</label>
+              <label class="checkbox-inline"><input type="checkbox" value="">BM4</label>
+              <label class="checkbox-inline"><input type="checkbox" value="">BM5</label>
+            </form>
+          </td>
+          <td><button type="button"  class="btn btn-primary btn-xs active">Save</button></td>
+        </tr>
+        <tr data-toggle2="popover" data-trigger="hover" data-placement="right" data-content="Choose active NeoPixel App. 0 = No App, 1=Tivoli App, 2=Temperature App">
+          <td>NeoPixel App</td>
+          <td><span id="NeoBadgeId" class="badge">1</span></td>
+          <td><input id="ex16a" type="text"/>&nbsp;&nbsp;&nbsp;&nbsp;<span id="ex16aSliderVal"></span></td>
+          <td><button id="NeoButtonId" type="button"  class="btn btn-primary btn-xs">Save</button></td>
+        </tr>
+        <tr>
+          <td>July</td>
+          <td><span class="badge">250</span></td>
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-info btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Dropdown
+              <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+              </ul>
+            </div>
+          </td>
+          <td>july@example.com</td>
+        </tr>
+        <tr>
+          <td>Auto Pilot</td>
+          <td><span id="ApBadgeId" class="badge">Zero Align</span></td>
+          <td>
+            <select id="ApSelectId" class="custom-select custom-select-sm">
+              <option>None</option>
+              <option>El Align</option>
+              <option>Zero Align</option>
+            </select>
+          </td>
+          <td><button type="button"  class="btn btn-primary btn-xs disabled">Save</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+  <script>
+  $(document).ready(function(){
+      
+    $('[data-toggle="tooltip"]').tooltip();  
+    $('[data-toggle2="popover"]').popover();
+
+    $("#ParameterSearch").on("keyup", function() 
+    {
+      let value = $(this).val().toLowerCase();
+      $("#ParameterTable tr").filter(function() 
+      {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });    
+    });
+    
+    $("#ex16a").slider({ min: 0, max: 2, value: 1, focus: true, tooltip: 'show' });
+    $("#ex16a").on("slideStop", function(slideEvt) { 
+      $("#ex16aSliderVal").text(Math.min(Math.max(slideEvt.value, 0), 2)); }); //
+    $("#ex16a").on("slide", function(slideEvt) { 
+      $("#ex16aSliderVal").text(slideEvt.value); });
+      
+    $("#NeoButtonId").click(function()
+    {
+      let thisBadge = $(this).parent().parent().find(".badge");  //
+      let urlFunc  = "/SetParam/";
+      let urlArg = "E2P_NEO_PIXEL_APP";
+      urlArg += "/";
+      urlArg += $("#ex16aSliderVal").text();
+      $.get(urlFunc + urlArg, function(data, status)
+      {
+        setTimeout( function(){
+          urlFunc = "/SetParamCallback/";
+          $.get(urlFunc + urlArg, function(data, status)
+          {          
+            thisBadge.text(data["param"]);
+          });
+        }, 500);
+      });
+    });
+    
+  });
+  </script>
+
+
+</body>
+</html>
