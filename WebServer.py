@@ -64,7 +64,7 @@ if __name__ == '__main__':
     modbus = Modbus.ModbusMaster("COM5")
     modbus.start()
     modbus.set_slave_id(10)
-    print modbus.read_signal("SensorIG53A_RpmFild")
+    print(modbus.read_signal("SensorIG53A_RpmFild"))
   except:
     pass
   

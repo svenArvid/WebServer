@@ -128,7 +128,7 @@ class ModbusMaster(threading.Thread):
     threading.Thread.__init__(self)
     self.com_port = open_port(port_name)
     self.timeout = 0.2
-    print "Init"
+    print("Init")
         
   
   def set_slave_id(self, new_id):
@@ -165,8 +165,8 @@ class ModbusMaster(threading.Thread):
         
         elif data[FUNCTION_CODE_INDX] == 6:          # Function code 6
           data_address = int(data[2] << 8) + int(data[3]) - 0x1000       # Remove Offset 0x1000 to access lists here
-          print data_address
-          print param_names[data_address]
+          print(data_address)
+          print(param_names[data_address])
           self.params[param_names[data_address]] = int(data[4] << 8) + int(data[5])
       
       
@@ -206,14 +206,14 @@ if __name__ == "__main__":
   modbus_thread.start()
   
   while True:
-    print "In main"
+    print("In main")
     time.sleep(1.0)
-    print modbus_thread.signals["RoomTempSnsr.Temperature"]
-    print modbus_thread.signals["RoomTempSnsr.ADCVal"]
-    print modbus_thread.signals["SensorIG53A_Rpm"]
-    print modbus_thread.signals["SensorIG53B_Rpm"]
-    print modbus_thread.signals["SensorIG53A_RpmFild"]
-    print modbus_thread.signals["SensorIG53B_RpmFild"]
+    print(modbus_thread.signals["RoomTempSnsr.Temperature"])
+    print(modbus_thread.signals["RoomTempSnsr.ADCVal"])
+    print(modbus_thread.signals["SensorIG53A_Rpm"])
+    print(modbus_thread.signals["SensorIG53B_Rpm"])
+    print(modbus_thread.signals["SensorIG53A_RpmFild"])
+    print(modbus_thread.signals["SensorIG53B_RpmFild"])
 
     
 # .write
